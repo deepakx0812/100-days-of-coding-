@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Employee {
+    int id;
+    char name[50];
+    float salary;
+};
+
+int main() {
+    struct Employee emp, emp_read;
+    FILE *fp;
+
+    // ---------- Writing to a Binary File ----------
+    fp = fopen("employee.bin", "wb");
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        return 1;
+    }
+
+    // Take employee details
+    printf("Enter Employee ID: ");
+    scanf("%d", &emp.id);
+
+    printf("Enter Employee Name: ");
+    scanf("%s", emp.name);
+
+    printf("Enter Salary: ");
+    scanf("%f", &emp.salary);
+
+    // Write structure to file
+    fwrite(&emp, sizeof(struct Employee), 1, fp);
+    fclose(fp);
+
+    // ---------- Reading from the Binary File ----------
+    fp = fopen("employee.bin", "rb");
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        return 1;
+    }
+
+    fread(&emp_read, sizeof(struct Employee), 1, fp);
+
+    // Display data
+    printf("\n--- Employee Details Read from File ---\n");
+    printf("ID: %d\n", emp_read.id);
+    printf("Name: %s\n", emp_read.name);
+    printf("Salary: %.2f\n", emp_read.salary);
+
+    fclose(fp);
+
+    return 0;
+}
+
